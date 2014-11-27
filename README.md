@@ -2,7 +2,6 @@ COMPSCI316
 ==========
 
 Note from Vivian on version 1.0 on 26th. 
-=====
 I changed the name of the entire project from microblog to final project
 
 and now flask/bin/python doesn't work
