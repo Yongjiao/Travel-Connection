@@ -1,0 +1,48 @@
+<html>
+<head>
+	<title>Enter a user</title>
+</head>
+<body>
+	<form action="" method="post" name="login">
+		{{ form.hidden_tag() }}
+		<p>
+			Do not add additional spaces after your entries in each box!<br>
+			Username: {{ form.username }} <!-- looking for form object -->
+			Email: {{ form.email }}
+			Profile: {{ form.profile }}
+			List your areas of expertise, in this format:<br>
+			State, City, Activity<br>
+			You can enter more later.<br>
+			<br>
+			State: {{ form.state }}
+			City: {{ form.city }}
+			Activity: {{ form.activity }}<br>
+			{% for error in form.username.errors %}
+				Username error! 
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+            {% for error in form.profile.errors %}
+            	"Profile" field error! 
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+			{% for error in form.email.errors %}
+            	"Email" field error!
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+			{% for error in form.state.errors %}
+            	"State" field error!
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+			{% for error in form.city.errors %}
+            	"City" field error!
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+			{% for error in form.activity.errors %}
+            	"Activity" field error!
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+		</p>
+		<p><input type="submit" value="Create"></p>
+	</form>
+</body>
+</html>
