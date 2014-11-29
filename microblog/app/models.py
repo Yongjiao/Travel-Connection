@@ -51,6 +51,18 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post %r>' % (self.body)
 
+class AreaOfInterests(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    country = db.Column(db.String(64))
+    state = db.Column(db.String(64))
+    city = db.Column(db.String(64))
+    area = db.Column(db.String(120), nullable=True)
+    #area is things like fishing, retaurant, hiking, etc.
+    
+    def __repr__(self):
+        return '<AreaOfInterests %r %r %r %r %r %r>' % (self.id, self.user_id, self.country, self.state, self.city, self.area)
+
 class Ratings(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     rater_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
@@ -59,11 +71,21 @@ class Ratings(db.Model):
     comment = db.Column(db.Text, nullable=True)
     timestamp = db.Column(db.DateTime)
 
-    # rater = db.relationship('User')
-    # rated = db.relationship('User')
-
     rater = db.relationship('User', foreign_keys = 'Ratings.rater_id')
     rated = db.relationship('User', foreign_keys = 'Ratings.rated_id')
 
     def __repr__(self):
         return '<Ratings %r %r %r %r %r %r>' % (self.id, self.rater_id, self.rated_id, self.rates, self.comment, self.timestamp)
+
+class Messages(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+    text = db.Column(db.Text, nullable = False)
+    time = db.Column(db.DateTime)
+    
+    sender = db.relationship('User', foreign_keys = 'Messages.sender_id')
+    receiver = db.relationship('User', foreign_keys = 'Messages.receiver_id')
+
+    def __repr__(self):
+        return '<Messages %r %r>' % (self.id, self.sender_id, self.receiver_id, self.text, self.time)
