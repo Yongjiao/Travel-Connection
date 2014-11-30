@@ -11,6 +11,10 @@ class EditForm(Form):
     nickname = TextField('username', validators = [Required()])
     firstname = TextField('firstname', validators = [Required()])
     lastname = TextField('lastname', validators = [Required()])
+    country = TextField('country',validators = [Required()])
+    state = TextField('state',validators = [Required()])
+    city = TextField('city',validators = [Required()])
+    area = TextField('area',validators = [Required()])
     phone = TextField('phone', validators = [Required()])
     about_me = TextAreaField('about_me', validators = [Length(min = 0, max = 300)])
 

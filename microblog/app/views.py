@@ -97,6 +97,7 @@ def user(nickname):
 @login_required
 def edit():
     form = EditForm(g.user.nickname)
+    guseraoi=g.user.get_aoi()
     if form.validate_on_submit():
         g.user.nickname = form.nickname.data
         g.user.firstname = form.firstname.data
@@ -104,6 +105,12 @@ def edit():
         g.user.phone = form.phone.data
         g.user.about_me = form.about_me.data
         db.session.add(g.user)
+        db.session.commit()
+        guseraoi.country=form.country.data
+        guseraoi.state=form.state.data
+        guseraoi.city=form.city.data
+        guseraoi.area=form.area.data
+        db.session.add(guseraoi)
         db.session.commit()
         flash('Your changes have been saved.')
         return redirect(url_for('edit'))
@@ -113,6 +120,10 @@ def edit():
         form.firstname.data = g.user.firstname
         form.lastname.data = g.user.lastname
         form.phone.data = g.user.phone
+        form.country.data = guseraoi.country
+        form.state.data = guseraoi.state
+        form.city.data = guseraoi.city
+        form.area.data = guseraoi.area
     return render_template('edit.html',
         form = form)
 
