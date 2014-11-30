@@ -9,6 +9,7 @@ class User(db.Model):
     lastname = db.Column(db.String(32), index=True, nullable = True)
     phone = db.Column(db.String(32), nullable=True)
     posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
+    aoi = db.relationship('AreaOfInterests', backref = 'person', lazy = 'dynamic')
     about_me = db.Column(db.String(300))
     last_seen = db.Column(db.DateTime)
     
@@ -39,6 +40,9 @@ class User(db.Model):
             version += 1
         return new_nickname
 
+    def get_aoi(self):
+        return AreaOfInterests.query.join(User, (User.id == AreaOfInterests.user_id)).filter(self.id == AreaOfInterests.user_id).first()
+
     def __repr__(self):
         return '<User %r %r %r %r %r %r %r>' % (self.id, self.nickname, self.email, self.firstname, self.lastname, self.phone, self.about_me)    
         
@@ -53,7 +57,7 @@ class Post(db.Model):
 
 class AreaOfInterests(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     country = db.Column(db.String(64))
     state = db.Column(db.String(64))
     city = db.Column(db.String(64))

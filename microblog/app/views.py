@@ -88,9 +88,10 @@ def user(nickname):
         { 'author': user, 'body': 'Test post #1' },
         { 'author': user, 'body': 'Test post #2' }
     ]
+    useraoi = user.get_aoi()
     return render_template('user.html',
         user = user,
-        posts = posts)
+        posts = posts, useraoi=useraoi)
 
 @app.route('/edit', methods = ['GET', 'POST'])
 @login_required

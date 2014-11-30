@@ -9,6 +9,10 @@
             <h1>User: {{user.nickname}}</h1>
             {% if user.firstname %}<p>Firstname: {{user.firstname}}</p>{% endif %}
             {% if user.lastname %}<p>Lastname: {{user.lastname}}</p>{% endif %}
+            {% if useraoi.city %}<p><i>City: {{useraoi.city}}</i></p>{% endif %}
+            {% if useraoi.state %}<p><i>State: {{useraoi.state}}</i></p>{% endif %}
+            {% if useraoi.country %}<p><i>Country: {{useraoi.country}}</i></p>{% endif %}
+            {% if useraoi.area %}<p><i>Interests: {{useraoi.area}}</i></p>{% endif %}
             {% if user.phone %}<p>Phone: {{user.phone}}</p>{% endif %}
             {% if user.about_me %}<p>About_me: {{user.about_me}}</p>{% endif %}
             {% if user.last_seen %}<p><i>Last seen on: {{user.last_seen}}</i></p>{% endif %}
