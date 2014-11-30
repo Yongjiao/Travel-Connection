@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from app import app, db, lm, oid
+from app import app, db, lm, oid, models
 from forms import LoginForm, EditForm
 from models import User
 from datetime import datetime
@@ -88,10 +88,16 @@ def user(nickname):
         { 'author': user, 'body': 'Test post #1' },
         { 'author': user, 'body': 'Test post #2' }
     ]
+    comments = g.user.get_comments().all()
+    # raters = []
+    # for comment in comments:
+    #     rater=models.User.query.filter_by(id=comment.rater_id).first()
+    #     raters=raters.append(rater)
     useraoi = user.get_aoi()
     return render_template('user.html',
         user = user,
-        posts = posts, useraoi=useraoi)
+        comments = comments,  
+        useraoi=useraoi)
 
 @app.route('/edit', methods = ['GET', 'POST'])
 @login_required

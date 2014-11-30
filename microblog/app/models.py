@@ -40,8 +40,16 @@ class User(db.Model):
             version += 1
         return new_nickname
 
+    # get area of interests of user
     def get_aoi(self):
         return AreaOfInterests.query.join(User, (User.id == AreaOfInterests.user_id)).filter(self.id == AreaOfInterests.user_id).first()
+
+    # get comments of user
+    def get_comments(self):
+        return Ratings.query.join(User, (User.id == Ratings.rated_id)).filter(self.id == Ratings.rated_id).order_by(Ratings.timestamp.desc())
+
+    # def get_rater(self):
+    #     return User.query.join(Ratings, (User.id == Ratings.rated_id)).filter(self.id == Ratings.rated_id).order_by(Ratings.timestamps.desc())
 
     def __repr__(self):
         return '<User %r %r %r %r %r %r %r>' % (self.id, self.nickname, self.email, self.firstname, self.lastname, self.phone, self.about_me)    
@@ -77,6 +85,9 @@ class Ratings(db.Model):
 
     rater = db.relationship('User', foreign_keys = 'Ratings.rater_id')
     rated = db.relationship('User', foreign_keys = 'Ratings.rated_id')
+
+    def get_rater(self):
+        return User.query.filter_by(id=self.rater_id).first()
 
     def __repr__(self):
         return '<Ratings %r %r %r %r %r %r>' % (self.id, self.rater_id, self.rated_id, self.rates, self.comment, self.timestamp)

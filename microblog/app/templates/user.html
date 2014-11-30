@@ -21,7 +21,8 @@
     </tr>
 </table>
 <hr>
-{% for post in posts %}
-    {% include 'post.html' %}
+<h2>Ratings:</h2>
+{% for comment in comments %}
+    {% include 'comment.html' %}
 {% endfor %}
 {% endblock %}
