@@ -36,6 +36,14 @@ Xiaodan's version (update 01/12/2014)
 ###What we can't do:
 1.concurrency problems...
 
+###Some useful links:
+[flask](http://flask.pocoo.org)<br />
+[flask-WTF](https://flask-wtf.readthedocs.org/en/latest/)<br />
+[flask tutorial(chinese version, but out of date)]<br />
+[jinja2](http://jinja.pocoo.org)<br />
+[SQLalchemy](http://www.sqlalchemy.org)<br />
+[Bootstrap](http://getbootstrap.com)<br />
+
 Yan's work
 -----------
 Yan has done lots of work of front-end, but still need time to connect front-end and back-end. If someone who is familiar with HTML, CSS, and Javascript, 
