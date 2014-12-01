@@ -22,10 +22,10 @@ Xiaodan's version (update 01/12/2014)
 4. I did all the work based on the [tutorial](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world).<br />
 
 ###What app can do now:
-1.login with OpenID
-2.Rating others without any limitation. (You need type the URL to visit other's profile pages, because we do not have a list of search result to show relative users. You can't rate yourself.)
-3.Edit your profile.(When you visit other's profile, the edit link will go away.)
-4.Send message to someone from his or her profile pages, and browse the history of messages between you and him or her. Messages are shown in order of time.
+	1.login with OpenID
+	2.Rating others without any limitation. (You need type the URL to visit other's profile pages, because we do not have a list of search result to show relative users. You can't rate yourself.)
+	3.Edit your profile.(When you visit other's profile, the edit link will go away.)
+	4.Send message to someone from his or her profile pages, and browse the history of messages between you and him or her. Messages are shown in order of time.
 
 ###What we should do:
 1.search part!
