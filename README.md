@@ -19,6 +19,7 @@ Xiaodan's version (update 01/12/2014)
 1. using your own flask folder.
 2. using db_create.py, db_migrate.py, db_upgrade.py makes your own database.
 3. using run.py runs the app.
+4. I did all the work based on the [tutorial](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world).<br />
 
 ###What app can do now:
 1.login with OpenID
