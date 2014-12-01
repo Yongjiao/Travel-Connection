@@ -39,7 +39,7 @@ Xiaodan's version (update 01/12/2014)
 ###Some useful links:
 [flask](http://flask.pocoo.org)<br />
 [flask-WTF](https://flask-wtf.readthedocs.org/en/latest/)<br />
-[flask tutorial(chinese version, but out of date)]<br />
+[flask tutorial(chinese version, but out of date)](http://www.pythondoc.com/flask-mega-tutorial/index.html)<br />
 [jinja2](http://jinja.pocoo.org)<br />
 [SQLalchemy](http://www.sqlalchemy.org)<br />
 [Bootstrap](http://getbootstrap.com)<br />
