@@ -65,6 +65,9 @@ def after_login(resp):
         user = User(nickname = nickname, email = resp.email)
         db.session.add(user)
         db.session.commit()
+        aoi=models.AreaOfInterests(user_id=user.id, country=' ',state=' ',city=' ',area=' ')
+        db.session.add(aoi)
+        db.session.commit()
     remember_me = False
     if 'remember_me' in session:
         remember_me = session['remember_me']
@@ -120,26 +123,34 @@ def edit():
         g.user.lastname = form.lastname.data
         g.user.phone = form.phone.data
         g.user.about_me = form.about_me.data
+        guseraoi.country = form.country.data
+        guseraoi.state = form.state.data
+        guseraoi.city = form.city.data
+        guseraoi.area = form.area.data
         db.session.add(g.user)
         db.session.commit()
-        guseraoi.country=form.country.data
-        guseraoi.state=form.state.data
-        guseraoi.city=form.city.data
-        guseraoi.area=form.area.data
         db.session.add(guseraoi)
         db.session.commit()
         flash('Your changes have been saved.')
         return redirect(url_for('edit'))
     elif request.method != "POST":
         form.nickname.data = g.user.nickname
-        form.about_me.data = g.user.about_me
-        form.firstname.data = g.user.firstname
-        form.lastname.data = g.user.lastname
-        form.phone.data = g.user.phone
-        form.country.data = guseraoi.country
-        form.state.data = guseraoi.state
-        form.city.data = guseraoi.city
-        form.area.data = guseraoi.area
+        if form.about_me.data: 
+            form.about_me.data = g.user.about_me
+        if form.firstname.data: 
+            form.firstname.data = g.user.firstname
+        if form.lastname.data: 
+            form.lastname.data = g.user.lastname
+        if form.phone.data: 
+            form.phone.data = g.user.phone
+        if form.country.data: 
+            form.country.data = guseraoi.country
+        if form.state.data: 
+            form.state.data = guseraoi.state
+        if form.city.data: 
+            form.city.data = guseraoi.city
+        if form.area.data: 
+            form.area.data = guseraoi.area
     return render_template('edit.html',
         form = form)
 
