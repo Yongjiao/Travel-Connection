@@ -33,3 +33,9 @@ class EditForm(Form):
             return False
         return True
 
+class RatingsForm(Form):
+    comment = TextField('comment', validators = [Required()])
+    rates = TextField('rates',validators = [Required()])
+
+
+

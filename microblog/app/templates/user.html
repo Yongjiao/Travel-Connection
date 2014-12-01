@@ -21,7 +21,30 @@
     </tr>
 </table>
 <hr>
-<h2>Ratings:</h2>
+<h2>Ratings</h2>
+{% if user.id != g.user.id %}
+<form action="" method="post" name="rating">
+    {{form.hidden_tag()}}
+    <table>
+        <tr>
+            <td>Say something:</td>
+            <td>{{ form.comment(size = 30, maxlength = 300) }}</td>
+            <td>Rate(1.0 to 5.0):</td>
+            <td>{{ form.rates(size = 30, maxlength = 4) }}</td>
+            <td>
+            {% for error in form.errors.post %}
+            <span style="color: red;">[{{error}}]</span><br>
+            {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit"></td>
+            <td></td>
+        </tr>
+    </table>
+</form>
+{% endif %}
 {% for comment in comments %}
     {% include 'comment.html' %}
 {% endfor %}

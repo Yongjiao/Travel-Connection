@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid, models
-from forms import LoginForm, EditForm
+from forms import LoginForm, EditForm, RatingsForm
 from models import User
 from datetime import datetime
 
@@ -77,7 +77,7 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
     
-@app.route('/user/<nickname>')
+@app.route('/user/<nickname>', methods = ['GET', 'POST'])
 @login_required
 def user(nickname):
     user = User.query.filter_by(nickname = nickname).first()
@@ -88,16 +88,29 @@ def user(nickname):
         { 'author': user, 'body': 'Test post #1' },
         { 'author': user, 'body': 'Test post #2' }
     ]
-    comments = g.user.get_comments().all()
+    comments = user.get_comments().all()
     # raters = []
     # for comment in comments:
     #     rater=models.User.query.filter_by(id=comment.rater_id).first()
     #     raters=raters.append(rater)
     useraoi = user.get_aoi()
+    #rating other users
+    form = RatingsForm()
+    if form.validate_on_submit():
+        rating = models.Ratings(rater_id = g.user.id,
+            rated_id = user.id,
+            comment = form.comment.data, 
+            rates= form.rates.data,
+            timestamp = datetime.now())
+        db.session.add(rating)
+        db.session.commit()
+        flash('Your post is now live!')
+        return redirect(url_for('user', nickname=nickname))
     return render_template('user.html',
         user = user,
         comments = comments,  
-        useraoi=useraoi)
+        useraoi = useraoi,
+        form = form)
 
 @app.route('/edit', methods = ['GET', 'POST'])
 @login_required
