@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid, models
-from forms import LoginForm, EditForm, RatingsForm
+from forms import LoginForm, EditForm, RatingsForm, MessagesForm
 from models import User
 from datetime import datetime
 
@@ -84,15 +84,11 @@ def user(nickname):
     if user == None:
         flash('User ' + nickname + ' not found.')
         return redirect(url_for('index'))
-    posts = [
-        { 'author': user, 'body': 'Test post #1' },
-        { 'author': user, 'body': 'Test post #2' }
-    ]
+    # posts = [
+    #     { 'author': user, 'body': 'Test post #1' },
+    #     { 'author': user, 'body': 'Test post #2' }
+    # ]
     comments = user.get_comments().all()
-    # raters = []
-    # for comment in comments:
-    #     rater=models.User.query.filter_by(id=comment.rater_id).first()
-    #     raters=raters.append(rater)
     useraoi = user.get_aoi()
     #rating other users
     form = RatingsForm()
@@ -110,7 +106,8 @@ def user(nickname):
         user = user,
         comments = comments,  
         useraoi = useraoi,
-        form = form)
+        form = form,
+        nickname = nickname)
 
 @app.route('/edit', methods = ['GET', 'POST'])
 @login_required
@@ -145,6 +142,37 @@ def edit():
         form.area.data = guseraoi.area
     return render_template('edit.html',
         form = form)
+
+@app.route('/message/<nickname>', methods = ['GET', 'POST'])
+@login_required
+def sendMessage(nickname):
+    #if browse his or her own profile
+    if g.user.nickname == nickname:
+        user = g.user
+        messages = user.get_guser_messages().all()
+        return render_template('gusermessage.html',
+            messages = messages)
+    else: 
+    #if browse other's profile    
+        user = User.query.filter_by(nickname = nickname).first()
+        if user == None:
+            flash('User ' + nickname + ' not found.')
+            return redirect(url_for('index'))
+        messages = user.get_user_messages(g.user).all()
+        form = MessagesForm()
+        if form.validate_on_submit():
+            message = models.Messages(sender_id = g.user.id,
+                receiver_id = user.id,
+                text = form.text.data, 
+                time = datetime.now())
+            db.session.add(message)
+            db.session.commit()
+            flash('Your message is sending!')
+            return redirect(url_for('user', nickname=nickname))
+        return render_template('message.html',
+            form = form,
+            messages = messages)
+
 
 @app.errorhandler(404)
 def internal_error(error):

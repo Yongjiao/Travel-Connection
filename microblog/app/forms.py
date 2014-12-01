@@ -37,5 +37,8 @@ class RatingsForm(Form):
     comment = TextField('comment', validators = [Required()])
     rates = TextField('rates',validators = [Required()])
 
+class MessagesForm(Form):
+    text = TextField('text',validators = [Required()])
+
 
 

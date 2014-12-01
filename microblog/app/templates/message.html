@@ -1,0 +1,30 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for message in messages %}
+    {% include 'messagehistory.html' %}
+{% endfor %}
+
+<h2>Send a Message:</h2>
+<form action="" method="post" name="rating">
+    {{form.hidden_tag()}}
+    <table>
+        <tr>
+            <td>Say something:</td>
+            <td>{{ form.text(size = 30, maxlength = 300) }}</td>
+            <td>
+            {% for error in form.errors.post %}
+            <span style="color: red;">[{{error}}]</span><br>
+            {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Send"></td>
+            <td></td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

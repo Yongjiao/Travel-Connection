@@ -48,8 +48,17 @@ class User(db.Model):
     def get_comments(self):
         return Ratings.query.join(User, (User.id == Ratings.rated_id)).filter(self.id == Ratings.rated_id).order_by(Ratings.timestamp.desc())
 
-    # def get_rater(self):
-    #     return User.query.join(Ratings, (User.id == Ratings.rated_id)).filter(self.id == Ratings.rated_id).order_by(Ratings.timestamps.desc())
+    # get all messages of guser
+    def get_guser_messages(self):
+        send = Messages.query.join(User, (User.id == Messages.sender_id)).filter(self.id == Messages.sender_id)
+        receive = Messages.query.join(User, (User.id == Messages.sender_id)).filter(self.id == Messages.receiver_id)
+        return send.union(receive).order_by('messages_time')
+
+    # get all messages between guser and some user
+    def get_user_messages(self, user):
+        send = Messages.query.join(User, (User.id == Messages.sender_id)).filter(self.id == Messages.sender_id).filter(user.id == Messages.receiver_id)
+        receive = Messages.query.join(User, (User.id == Messages.sender_id)).filter(user.id == Messages.sender_id).filter(self.id == Messages.receiver_id)
+        return send.union(receive).order_by('messages_time') 
 
     def __repr__(self):
         return '<User %r %r %r %r %r %r %r>' % (self.id, self.nickname, self.email, self.firstname, self.lastname, self.phone, self.about_me)    
@@ -102,5 +111,9 @@ class Messages(db.Model):
     sender = db.relationship('User', foreign_keys = 'Messages.sender_id')
     receiver = db.relationship('User', foreign_keys = 'Messages.receiver_id')
 
+    # When view messages history, we need this function to find who send the message.
+    def get_sender(self):
+        return User.query.filter_by(id=self.sender_id).first()
+
     def __repr__(self):
-        return '<Messages %r %r>' % (self.id, self.sender_id, self.receiver_id, self.text, self.time)
+        return '<Messages %r %r %r %r %r>' % (self.id, self.sender_id, self.receiver_id, self.text, self.time)
