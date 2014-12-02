@@ -24,7 +24,7 @@ Xiaodan's version (update 01/12/2014)
 
 ###What app can do now:
 1.login with OpenID<br />
-2.Rating others without any limitation. (You need type the URL to visit other's profile pages, because we do not have a list of search result to show relative users. You can't rate yourself.)<br />
+2.Rating others without any spam prevention. (You need type the URL to visit other's profile pages, because we do not have a list of search result to show relative users. You can't rate yourself.)<br />
 3.Edit your profile.(When you visit other's profile, the edit link will go away.)<br />
 4.Send message to someone from his or her profile pages, and browse the history of messages between you and him or her. Messages are shown in order of time.<br />
 
