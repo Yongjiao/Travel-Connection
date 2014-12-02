@@ -18,6 +18,7 @@
             {% if user.last_seen %}<p><i>Last seen on: {{user.last_seen}}</i></p>{% endif %}
             {% if user.id == g.user.id %}<p><a href="{{url_for('edit')}}">Edit</a></p>{% endif %}
             {% if user.id != g.user.id %}<p><a href="/message/{{nickname}}">Send a Message</a></p>{% endif %}
+            {% if user.id == g.user.id %}<p><a href="/message/{{nickname}}">Message Box</a></p>{% endif %}
         </td>
     </tr>
 </table>
