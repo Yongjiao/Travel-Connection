@@ -3,7 +3,9 @@
 
 {% block content %}
 
-{% for message in messages %}
+{% for l in lists %}
+{% if l %}
     {% include 'gusermessagehistory.html' %}
+{% endif %}
 {% endfor %}
 {% endblock %}

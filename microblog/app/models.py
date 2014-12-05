@@ -51,7 +51,7 @@ class User(db.Model):
     # get all messages of guser
     def get_guser_messages(self):
         send = Messages.query.join(User, (User.id == Messages.sender_id)).filter(self.id == Messages.sender_id)
-        receive = Messages.query.join(User, (User.id == Messages.sender_id)).filter(self.id == Messages.receiver_id)
+        receive = Messages.query.join(User, (User.id == Messages.receiver_id)).filter(self.id == Messages.receiver_id)
         return send.union(receive).order_by('messages_time')
 
     # get all messages between guser and some user
@@ -59,6 +59,14 @@ class User(db.Model):
         send = Messages.query.join(User, (User.id == Messages.sender_id)).filter(self.id == Messages.sender_id).filter(user.id == Messages.receiver_id)
         receive = Messages.query.join(User, (User.id == Messages.sender_id)).filter(user.id == Messages.sender_id).filter(self.id == Messages.receiver_id)
         return send.union(receive).order_by('messages_time') 
+
+    def user_new(self, user):
+        news = Messages.query.filter_by(sender_id=self.id).filter_by(receiver_id=user.id)
+        newornot = 1
+        for new in news:
+            if new.readstamp == 0:
+                newornot = 1
+        return newornot
 
     def __repr__(self):
         return '<User %r %r %r %r %r %r %r>' % (self.id, self.nickname, self.email, self.firstname, self.lastname, self.phone, self.about_me)    
@@ -107,6 +115,7 @@ class Messages(db.Model):
     receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     text = db.Column(db.Text, nullable = False)
     time = db.Column(db.DateTime)
+    readstamp = db.Column(db.Integer, nullable = False)
     
     sender = db.relationship('User', foreign_keys = 'Messages.sender_id')
     receiver = db.relationship('User', foreign_keys = 'Messages.receiver_id')
@@ -114,6 +123,11 @@ class Messages(db.Model):
     # When view messages history, we need this function to find who send the message.
     def get_sender(self):
         return User.query.filter_by(id=self.sender_id).first()
+
+    def get_guserconncector(self):
+        a = User.query.filter_by(id=self.sender_id) 
+        b = User.query.filter_by(id=self.receiver_id)
+        return a.union(b)
 
     def __repr__(self):
         return '<Messages %r %r %r %r %r>' % (self.id, self.sender_id, self.receiver_id, self.text, self.time)

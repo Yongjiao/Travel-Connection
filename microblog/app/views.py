@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid, models
-from forms import LoginForm, EditForm, RatingsForm, MessagesForm
-from models import User
+from .forms import LoginForm, EditForm, RatingsForm, MessagesForm
+from .models import User
 from datetime import datetime
 
 @lm.user_loader
@@ -22,20 +22,16 @@ def before_request():
 @login_required
 def index():
     user = g.user
-    posts = [
-        { 
-            'author': { 'nickname': 'John' }, 
-            'body': 'Beautiful day in Portland!' 
-        },
-        { 
-            'author': { 'nickname': 'Susan' }, 
-            'body': 'The Avengers movie was so cool!' 
-        }
-    ]
+    # whether guser has new messages
+    messages = user.get_guser_messages().all()
+    newmessage = 0
+    for message in messages:
+        if message.readstamp == 0:
+            newmessage = 1
     return render_template('index.html',
+        newmessage=newmessage,
         title = 'Home',
-        user = user,
-        posts = posts)
+        user = user)
 
 @app.route('/login', methods = ['GET', 'POST'])
 @oid.loginhandler
@@ -96,6 +92,9 @@ def user(nickname):
     #rating other users
     form = RatingsForm()
     if form.validate_on_submit():
+        # ratingsbetween=models.Ratings.query.filter_by(rater_id=g.user.id).filter_by(rated_id=user.id).order_by(timestamp).first()
+        # if ratingsbetween == None:
+        #     if ratingsbetween 
         rating = models.Ratings(rater_id = g.user.id,
             rated_id = user.id,
             comment = form.comment.data, 
@@ -106,8 +105,9 @@ def user(nickname):
         flash('Your post is now live!')
         return redirect(url_for('user', nickname=nickname))
     return render_template('user.html',
+        title= user.nickname,
         user = user,
-        comments = comments,  
+        comments = comments,
         useraoi = useraoi,
         form = form,
         nickname = nickname)
@@ -161,8 +161,36 @@ def sendMessage(nickname):
     if g.user.nickname == nickname:
         user = g.user
         messages = user.get_guser_messages().all()
+        # templist for storing user 
+        print user.nickname
+        # templist for storing user 
+        lists = []
+        for message in messages:
+            tempusers = message.get_guserconncector().all()
+            for tempuser in tempusers:
+                lists.append(tempuser.nickname)
+        n = len(lists) - 1
+        m = len(lists) - 2
+        while n>=0:
+            print lists
+            print 'n=', n
+            if lists[n] == user.nickname:
+                print 'here!'
+                lists.pop(n)
+            n = n - 1
+        lists = list(set(lists))
+        print lists
+        connectors=[]
+        for l in lists:
+            connector = models.User.query.filter_by(nickname=l).first()
+            # a = connector.user_new(user)
+            # print 'a=',a
+            # print connector
+            connectors.append(connector)
+        print connectors
         return render_template('gusermessage.html',
-            messages = messages)
+            lists = connectors,
+            user = user)
     else: 
     #if browse other's profile    
         user = User.query.filter_by(nickname = nickname).first()
@@ -170,12 +198,15 @@ def sendMessage(nickname):
             flash('User ' + nickname + ' not found.')
             return redirect(url_for('index'))
         messages = user.get_user_messages(g.user).all()
+        for message in messages:
+            message.readstamp = 1
         form = MessagesForm()
         if form.validate_on_submit():
             message = models.Messages(sender_id = g.user.id,
                 receiver_id = user.id,
                 text = form.text.data, 
-                time = datetime.now())
+                time = datetime.now(),
+                readstamp = 0)
             db.session.add(message)
             db.session.commit()
             flash('Your message is sending!')
@@ -193,4 +224,4 @@ def internal_error(error):
 def internal_error(error):
     db.session.rollback()
     return render_template('500.html'), 500  
-    
+
