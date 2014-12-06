@@ -24,7 +24,12 @@
 </table>
 <hr>
 <h2>Ratings</h2>
+<h3>Average Rating Score: {{averagerate}}</h3>
+{% if form == None %}
+<h3>You has already rated during last 24 hours!</h3>
+{% endif %}
 {% if user.id != g.user.id %}
+{% if form != None %}
 <form action="" method="post" name="rating">
     {{form.hidden_tag()}}
     <table>
@@ -46,6 +51,7 @@
         </tr>
     </table>
 </form>
+{% endif %}
 {% endif %}
 {% for comment in comments %}
     {% include 'comment.html' %}

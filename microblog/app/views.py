@@ -23,14 +23,13 @@ def before_request():
 def index():
     user = g.user
     # whether guser has new messages
-    messages = user.get_guser_messages().all()
+    messages = user.get_new_messages().all()
     newmessage = 0
     for message in messages:
         if message.readstamp == 0:
             newmessage = 1
     return render_template('index.html',
-        newmessage=newmessage,
-        title = 'Home',
+        newmessage = newmessage,
         user = user)
 
 @app.route('/login', methods = ['GET', 'POST'])
@@ -88,29 +87,52 @@ def user(nickname):
     #     { 'author': user, 'body': 'Test post #2' }
     # ]
     comments = user.get_comments().all()
+    averagerate = 0
+    if len(comments) != 0:
+        for comment in comments:
+            averagerate = averagerate + comment.rates
+        averagerate = averagerate / len(comments)
+    #
     useraoi = user.get_aoi()
     #rating other users
     form = RatingsForm()
     if form.validate_on_submit():
-        # ratingsbetween=models.Ratings.query.filter_by(rater_id=g.user.id).filter_by(rated_id=user.id).order_by(timestamp).first()
-        # if ratingsbetween == None:
-        #     if ratingsbetween 
-        rating = models.Ratings(rater_id = g.user.id,
-            rated_id = user.id,
-            comment = form.comment.data, 
-            rates= form.rates.data,
-            timestamp = datetime.now())
-        db.session.add(rating)
-        db.session.commit()
-        flash('Your post is now live!')
-        return redirect(url_for('user', nickname=nickname))
+        # users should chat with each other first
+        messagesbetween = user.get_user_messages(g.user).all()
+        if len(messagesbetween) != 0:
+            rating = models.Ratings(rater_id = g.user.id,
+                rated_id = user.id,
+                comment = form.comment.data, 
+                rates= form.rates.data,
+                timestamp = datetime.now())
+            db.session.add(rating)
+            db.session.commit()
+            flash('Your rating is now live!')
+            return redirect(url_for('user', nickname=nickname))
+        flash('Chat with each other first!')    
+    # limitation of ratings    
+    ratingsbetween=models.Ratings.query.filter_by(rater_id=g.user.id).filter_by(rated_id=user.id).order_by('timestamp').all()
+    if len(ratingsbetween):
+        print 'ratingsbetween',ratingsbetween[-1]
+        duration = (datetime.now() - ratingsbetween[-1].timestamp).days
+        print 'duration', duration
+        if duration < 1:
+            return render_template('user.html',
+            title= user.nickname,
+            user = user,
+            comments = comments,
+            useraoi = useraoi,
+            form = None,
+            nickname = nickname,
+            averagerate =  "%.1f" % averagerate)
     return render_template('user.html',
         title= user.nickname,
         user = user,
         comments = comments,
         useraoi = useraoi,
         form = form,
-        nickname = nickname)
+        nickname = nickname,
+        averagerate =  "%.1f" % averagerate)
 
 @app.route('/edit', methods = ['GET', 'POST'])
 @login_required
@@ -161,7 +183,6 @@ def sendMessage(nickname):
     if g.user.nickname == nickname:
         user = g.user
         messages = user.get_guser_messages().all()
-        # templist for storing user 
         print user.nickname
         # templist for storing user 
         lists = []
@@ -181,16 +202,17 @@ def sendMessage(nickname):
         lists = list(set(lists))
         print lists
         connectors=[]
-        for l in lists:
-            connector = models.User.query.filter_by(nickname=l).first()
-            # a = connector.user_new(user)
-            # print 'a=',a
-            # print connector
-            connectors.append(connector)
-        print connectors
+        if lists:
+            for l in lists:
+                connector = models.User.query.filter_by(nickname=l).first()
+                # a = connector.user_new(user)
+                # print 'a=',a
+                # print connector
+                connectors.append(connector)
+            print connectors
         return render_template('gusermessage.html',
             lists = connectors,
-            user = user)
+            user = g.user)
     else: 
     #if browse other's profile    
         user = User.query.filter_by(nickname = nickname).first()
@@ -199,7 +221,10 @@ def sendMessage(nickname):
             return redirect(url_for('index'))
         messages = user.get_user_messages(g.user).all()
         for message in messages:
+            print 'before read',message
             message.readstamp = 1
+            print 'after read', message
+            db.session.commit()
         form = MessagesForm()
         if form.validate_on_submit():
             message = models.Messages(sender_id = g.user.id,

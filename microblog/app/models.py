@@ -59,13 +59,20 @@ class User(db.Model):
         send = Messages.query.join(User, (User.id == Messages.sender_id)).filter(self.id == Messages.sender_id).filter(user.id == Messages.receiver_id)
         receive = Messages.query.join(User, (User.id == Messages.sender_id)).filter(user.id == Messages.sender_id).filter(self.id == Messages.receiver_id)
         return send.union(receive).order_by('messages_time') 
+    # judge whether there is any new messages
+    # guser is the receiver, and if any messages readstamp is 0, there should me some new messages
+    def get_new_messages(self):
+        receive = Messages.query.join(User, (User.id == Messages.receiver_id)).filter(self.id == Messages.receiver_id)
+        return receive
 
+    #judge the new messages from which user
     def user_new(self, user):
-        news = Messages.query.filter_by(sender_id=self.id).filter_by(receiver_id=user.id)
-        newornot = 1
+        news = Messages.query.filter_by(sender_id=self.id).filter_by(receiver_id=user.id).all()
+        newornot = False
         for new in news:
+            print 'user_new',new 
             if new.readstamp == 0:
-                newornot = 1
+                newornot = True
         return newornot
 
     def __repr__(self):
@@ -130,4 +137,4 @@ class Messages(db.Model):
         return a.union(b)
 
     def __repr__(self):
-        return '<Messages %r %r %r %r %r>' % (self.id, self.sender_id, self.receiver_id, self.text, self.time)
+        return '<Messages %r %r %r %r %r %r>' % (self.id, self.sender_id, self.receiver_id, self.text, self.time,self.readstamp)
