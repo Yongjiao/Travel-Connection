@@ -1,0 +1,10 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+{% for l in lists %}
+{% if l %}
+{% include 'gusermessagehistory.html' %}
+{% endif %}
+{% endfor %}
+{% endblock %}

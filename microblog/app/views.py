@@ -19,18 +19,20 @@ def before_request():
     
 @app.route('/')
 @app.route('/index')
-@login_required
 def index():
+
     user = g.user
-    # whether guser has new messages
-    messages = user.get_new_messages().all()
-    newmessage = 0
-    for message in messages:
-        if message.readstamp == 0:
-            newmessage = 1
-    return render_template('index.html',
+    if g.user.is_authenticated():
+        # whether guser has new messages
+        messages = user.get_new_messages().all()
+        newmessage = 0
+        for message in messages:
+            if message.readstamp == 0:
+                newmessage = 1
+        return render_template('index.html',
         newmessage = newmessage,
         user = user)
+    return render_template('index.html', newmessage = 0)
 
 @app.route('/login', methods = ['GET', 'POST'])
 @oid.loginhandler

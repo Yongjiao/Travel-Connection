@@ -1,0 +1,158 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Edit Your Profile</h1>
+<form action="" method="post" name="edit">
+    {{form.hidden_tag()}}
+    <table>
+        <tr>
+            <td>Nickname:</td>
+            <td>
+                {{form.nickname(size = 24)}}
+                {% for error in form.errors.nickname %}
+                <br><span style="color: red;">[{{error}}]</span>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Firstname:</td>
+            <td>{{form.firstname(size = 32)}}</td>
+        </tr>
+        <tr>
+            <td>Lastname:</td>
+            <td>{{form.lastname(size = 32)}}</td>
+        </tr>
+        <tr>
+            <td>Phone:</td>
+            <input type="text" name = "phone" id="inputPhone" placeholder="Phone">
+                <script>
+                    form.phone.data = document.getElementById('inputPhone');
+                </script>
+                </tr>
+        <!-- we need to invert city, state, country, area to select style -->
+        <tr>
+            <td>City:</td>
+            <td>{{form.city(size = 32)}}</td>
+        </tr>
+        <tr>
+            <td>State:</td>
+            <td>{{form.state(size = 32)}}</td>
+        </tr>
+        <tr>
+            <td>Country:</td>
+            <td>{{form.country(size = 32)}}</td>
+        </tr>
+        <tr>
+            <td>Area of Intersts:</td>
+            <td>{{form.area(size = 32)}}</td>
+            
+        </tr>
+        <tr>
+            <td>About yourself:</td>
+            <td>{{form.about_me(cols = 32, rows = 4)}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Save Changes"></td>
+        </tr>
+    </table>
+</form>
+{% endblock %}
+
+
+<div class="container-narrow">
+    <div class="row-fluid marketing">
+        <h4 style="margin-top: 50px">Edit your profile</h4>
+        <form class="form-horizontal" action = "" method= "post" name = "edit">
+            <label class="control-label">Nickname: </label>
+            <div class="controls">
+                <input type="text" id="inputNickname" placeholder="Nickname">
+                    <script>form.nickname.data = document.getElementById('inputNickname');</script>
+            </div>
+            
+            <label class="control-label">Name: </label>
+            <div class="controls">
+                <input type="text" id="inputfirstName" placeholder="First Name">
+                    <script>form.firstname.data = document.getElementById('inputfirstName');</script>
+            </div>
+            
+            <div class="controls">
+                <input type="text" id="inputlastName" placeholder="Last Name">
+                    <script>form.last.data = document.getElementById('inputlastName');</script>
+                    </div>
+            <label class="control-label">Phone: </label>
+            <div class="controls">
+                <input type="text" id="inputPhone" placeholder="Phone">
+                    <script>form.phone.data = document.getElementById('inputPhone');</script>
+            </div>
+
+<div class="controls">
+    <table style="table-layout: fixed; width: 20%">
+        <tr>
+            <td align="center">Country</td>
+        </tr>
+        
+        <td align="center">
+            <select multiple="multiple" size="1" id = "inputCountry">
+                <option selected = "selected">United States</option>
+            </select>
+        </td>
+        <script> console.log(document.getElementById('inputCountry').value);</script>
+        
+        <tr>
+            <td align="center">State</td>
+        </tr>
+        
+        <td align="center">
+            <select multiple="multiple" size="1" id = "inputState">
+                <option selected = "selected">CA</option>
+                <option>FL</option>
+                <option>WI</option>
+                <option>NY</option>
+                <option>TX</option>
+            </select>
+        </td>
+        <script>form.state.data = document.getElementById('inputState').value;</script>
+       
+       
+       <tr>
+            <td align="center">City</td>
+        </tr>
+        <td align="center">
+            <select multiple="multiple" size="1" id= "inputCity">
+                <option selected = "selected">San Francisco</option>
+                <option>Orlando,</option>
+                <option>Miami</option>
+                <option>Las Vegas</option>
+                <option>New York City</option>
+                <option>Seattle</option>
+                <option>Austin</option>
+            </select>
+        </td>
+        <script>form.city.data = document.getElementById('inputCity').value;</script>
+        
+        <tr>
+            <td align="center">Interest</td>
+        </tr>
+        <td align="center">
+            <select multiple="multiple" size="1" id="inputArea">
+                <option selected = "selected">Restaurants</option>
+                <option>Bar</option>
+                <option>Museum</option>
+                <option>School</option>
+                <option>Park</option>
+            </select>
+        </td>
+        <script>form.area.data = document.getElementById('inputArea').value;</script>
+        </tr>
+        
+    </table>
+    <span class="help-block">Select areas you can provide help. Can select multiples with the control key. </span>
+</div>
+
+<p><input type="submit" class="btn btn-success" value = "Update"></p>
+    <!--<td><input type="submit" value="Save Changes"></td>-->
+    <p><button type="submit" class="btn btn-danger" style="margin-bottom: 30px">Clear</button></p>
+    </form>
+  
