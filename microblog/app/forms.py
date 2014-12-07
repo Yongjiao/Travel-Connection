@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, BooleanField, TextAreaField
-from wtforms.validators import Required, Length
+from wtforms import TextField, BooleanField, TextAreaField, StringField
+from wtforms.validators import Required, InputRequired, Length
 from .models import User
 
 class LoginForm(Form):
@@ -40,5 +40,9 @@ class RatingsForm(Form):
 class MessagesForm(Form):
     text = TextField('text',validators = [Required()])
 
+class SearchForm(Form):
+    state = StringField('state', validators=[InputRequired()])
+    city = StringField('city', validators=[InputRequired()])
+    activity = StringField('activity', validators=[InputRequired()])
 
 

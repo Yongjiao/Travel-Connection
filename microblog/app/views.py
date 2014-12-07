@@ -1,9 +1,10 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid, models
-from forms import LoginForm, EditForm, RatingsForm, MessagesForm
-from models import User
+from .forms import LoginForm, EditForm, RatingsForm, MessagesForm, SearchForm
+from .models import User, AreaOfInterests
 from datetime import datetime
+from config import MAX_SEARCH_RESULTS
 
 @lm.user_loader
 def load_user(id):
@@ -16,7 +17,48 @@ def before_request():
         g.user.last_seen = datetime.utcnow()
         db.session.add(g.user)
         db.session.commit()
-    
+
+@app.route('/search', methods= ['GET'])
+def search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        global s=form.state.data
+        global c=form.city.data
+        global a=form.activity.data
+        query = [s, c, a]
+    #if not form.validate_on_submit():
+    #    return redirect(url_for('search'))
+    return render_template('search.html', form=form)
+
+#non whoosh search
+@app.route('/search_results/<query>', methods= ['GET'])
+def search_results(query):
+        s = query[0]
+        c = query[1]
+        a = query[2]
+        query = [s, c, a]
+        results = User.query.join(AreaOfInterests, (AreaOfInterests.user_id == User.id)).filter_by(state=s, city=c, area=a).all()
+        return render_template('search_results.html',
+                                query=query,
+                                results=results)
+        #2 will probably increase once we have more data
+        #if too few queries show up, eliminate activity from the search and redo
+        #if (len(tuples) < 2)
+         #   flash('Your query returned very few results--sorry! Click here to reinitialize search with just the State and City you speficied.')
+         #   modified = User.query.join(AreaOfInterests, AreaOfInterests.user_id == User.id).filter_by(s=AreaOfInterests,c=AreaOfInterests.city).all()
+        #if (len(modified) <2)
+
+#@app.route('/search_results/<query>')
+#def search_results(s,c,a):
+ #   results = AreaOfInterests.query.whoosh_search(s,c,a, fields=('state','city','activity'), MAX_SEARCH_RESULTS)       
+ #   return render_template('search_results.html',
+  #                          s=s,
+  #                          c=c,
+   #                         a=a,
+   #                         results=results)
+
+
+
 @app.route('/')
 @app.route('/index')
 @login_required
@@ -192,5 +234,7 @@ def internal_error(error):
 @app.errorhandler(500)
 def internal_error(error):
     db.session.rollback()
-    return render_template('500.html'), 500  
+    return render_template('500.html'), 500 
+
+#@app.route('/') 
     

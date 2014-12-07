@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+<h3>Search results for 
+{% for content in query %}
+	content 
+{% endfor %}</h3>
+
+{% block queryresults %}
+	{% for result in results %}
+		<li>result <li> 
+	{% endfor %}
+{% endblock %}

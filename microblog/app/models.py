@@ -1,5 +1,13 @@
 from hashlib import md5
 from app import db
+import sys
+if sys.version_info >= (3, 0):
+    enable_search = False
+else:
+    enable_search = True
+    import flask.ext.whooshalchemy as whooshalchemy
+
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -8,7 +16,7 @@ class User(db.Model):
     firstname = db.Column(db.String(32), index=True, nullable=True)
     lastname = db.Column(db.String(32), index=True, nullable = True)
     phone = db.Column(db.String(32), nullable=True)
-    posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
+    #posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
     aoi = db.relationship('AreaOfInterests', backref = 'person', lazy = 'dynamic')
     about_me = db.Column(db.String(300))
     last_seen = db.Column(db.DateTime)
@@ -63,16 +71,17 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r %r %r %r %r %r %r>' % (self.id, self.nickname, self.email, self.firstname, self.lastname, self.phone, self.about_me)    
         
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+#class Post(db.Model):
+#    id = db.Column(db.Integer, primary_key = True)
+#    body = db.Column(db.String(140))
+#    timestamp = db.Column(db.DateTime)
+#    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __repr__(self):
-        return '<Post %r>' % (self.body)
+ #   def __repr__(self):
+ #       return '<Post %r>' % (self.body)
 
 class AreaOfInterests(db.Model):
+    __searchable__ = ['state', 'city', 'area']
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     country = db.Column(db.String(64))
@@ -81,8 +90,14 @@ class AreaOfInterests(db.Model):
     area = db.Column(db.String(120), nullable=True)
     #area is things like fishing, retaurant, hiking, etc.
     
+    def get_all(self):
+        aois = AreaOfInterests.query.all()
+
     def __repr__(self):
         return '<AreaOfInterests %r %r %r %r %r %r>' % (self.id, self.user_id, self.country, self.state, self.city, self.area)
+
+if enable_search:
+    whooshalchemy.whoosh_index(app, Post)
 
 class Ratings(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -117,3 +132,19 @@ class Messages(db.Model):
 
     def __repr__(self):
         return '<Messages %r %r %r %r %r>' % (self.id, self.sender_id, self.receiver_id, self.text, self.time)
+
+
+
+class Post(db.Model):
+    __searchable__ = ['body']
+
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String(140))
+    timestamp = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<Post %r>' % (self.body)
+
+if enable_search:
+    whooshalchemy.whoosh_index(app, Post)

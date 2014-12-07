@@ -4,14 +4,24 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.openid import OpenID
 from config import basedir
+import flask
+import flask.ext.sqlalchemy
+#import flask.ext.restless
+
 
 app = Flask(__name__)
 app.config.from_object('config')
+#app.config['DEBUG'] = True
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
 oid = OpenID(app, os.path.join(basedir, 'tmp'))
+
+#manager = flask.ext.restless.APIManager(app,flask_sqlalchemy_db=db)
+#manager.create_api(User, methods=['GET'])
+#manager.create_api(AreaOfInterests, mehtods=['GET'])
 
 if not app.debug:
     import logging
