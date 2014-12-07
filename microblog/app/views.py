@@ -22,22 +22,24 @@ def before_request():
 def search():
     form = SearchForm()
     if form.validate_on_submit():
-        global s=form.state.data
-        global c=form.city.data
-        global a=form.activity.data
+        s=form.state.djata
+        c=form.city.data
+        a=form.activity.data
         query = [s, c, a]
     #if not form.validate_on_submit():
     #    return redirect(url_for('search'))
     return render_template('search.html', form=form)
 
 #non whoosh search
-@app.route('/search_results/<query>', methods= ['GET'])
-def search_results(query):
-        s = query[0]
-        c = query[1]
-        a = query[2]
-        query = [s, c, a]
+@app.route('/search_results/', methods= ['POST'])
+def search_results():
+        s = request.form['state']
+        c = request.form['city']
+        a = request.form['activity']
+        query = [s, c,a ]
+        print (query)
         results = User.query.join(AreaOfInterests, (AreaOfInterests.user_id == User.id)).filter_by(state=s, city=c, area=a).all()
+        print (results)
         return render_template('search_results.html',
                                 query=query,
                                 results=results)

@@ -1,12 +1,13 @@
 {% extends "base.html" %}
-
+{% block content %}
 <h3>Search results for 
 {% for content in query %}
-	content 
+	{{content}} 
 {% endfor %}</h3>
 
-{% block queryresults %}
-	{% for result in results %}
-		<li>result <li> 
-	{% endfor %}
+
+{% for result in results %}
+	<li><a href="/user/{{result.id}}/"> {{result.nickname}} </a><li> 
+{% endfor %}
+
 {% endblock %}
