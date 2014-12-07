@@ -1,7 +1,11 @@
 COMPSCI316
 ==========
+12/7 Vivian's update
+----------------
+Working on writing the search query. Having issues searching for multiple attributes. Probably something wrong with the way the information (state city activity) are getting fed into search_results. Can't find specific help online, probably because I dislike reading documentation/so much information to parse through. 
 
-Vivian's version
+
+Vivian's version 1.0
 ----------------
 Note from Vivian on version 1.0 on 26th.        
 I changed the name of the entire project from microblog to final project
