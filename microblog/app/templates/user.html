@@ -110,48 +110,61 @@
                 <h4>Name</h4>
                 <p><font size="3.5">{{user.firstname}} {{user.lastname}}</font></p>
                 {% endif%}
-                {% if useraoi.city !=' ' %}
+                
+               
                 <h4>Place</h4>
-                <p><font size ="3.5">{{useraoi.city}},
-                {{useraoi.state}}</font></p>
-                {% endif %}
-                <p><font size ="3.5">{{useraoi.country}}</font></p>
-                {% if useraoi.area !=' ' %}
+                {% for u in useraoi%}             
+                <p><font size ="3.5">{{u.city}}</font></p>
+                {% endfor %}
+                
                 <h4>Area of Interest</h4>
-                <p><font size ="3.5">{{useraoi.area}}</font></p>
+                {% for u in useraoi%}   
+                {% if u.area !=' ' %}
+                <p><font size ="3.5">{{u.area}}<br></font></p>
                 {% endif %}
+                {% endfor %}
+                
+     
                 {% if user.phone%}
                 <h4>Phone</h4>
                 <p><font size="3.5">{{user.phone}}</font></p>
                 {%endif%}
-                <h4>About me</h4> <!--no about me!!-->
-                <p><font size="3.5">No about me!{{user.about_me}}</font></p>
-                {% if user.about_me %}<p>About_me: {{user.about_me}}</p>{% endif %}
+                <h4>About me</h4>
+                {% if user.about_me %}<p>{{user.about_me}}</p>{% endif %}<br>
+
                 {% if user.last_seen %}<p><i>Last seen on: {{user.last_seen}}</i></p>{% endif %}
+       
+    
         
                 {% if user.id != g.user.id %}
                 {% if form == None %}
-                <h3>You have already rated very recently! :D</h3>
+                <h4>You have already rated very recently! :D</h4>
                 {% else %}
                 <h4>Leave a feedback</h4>
                 <form method="post" action="" name="rating"><!--very likely have to fix here!!-->
                     {{form.hidden_tag()}}
-                    <table cellpadding="0" cellspacing="0" width="133" bgcolor=#FFFFFF>
+                    <table cellpadding="0" cellspacing="0" width="133" bgcolor=#FFFFFF style="table-layout: fixed; width: 100%">
+                            <col width="127">
+                            <col width="400">
                         <tr>
-                            <td>
-                               <!-- <iframe src="http://www.ratingcode.com/show.php?id=141773548911&st=3&bg=FFFFFF" border="0" width="115" height="37" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no" bgcolor=FFFFFF name = "rates" id = "myrate">
-                                 </iframe>
-                                <script>form.rates.data = document.getElementById('myrate'); </script>                                <td>Comment here:</td>
-                                -->
-                                <td>{{ form.comment(size = 30, maxlength = 300) }}</td>
+                                <!--<iframe src="http://www.ratingcode.com/show.php?id=141773548911&st=3&bg=FFFFFF" border="0" width="115" height="37" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no" bgcolor=FFFFFF name = "rates" id = "myrate">
+                             
+                                <script>form.rates.data = document.getElementById('myrate'); </script>
+                                 
+                             </iframe>
+                            -->
                                 <td>Rate(1.0 to 5.0):</td>
                                 <td>{{ form.rates(size = 30, maxlength = 4) }}</td>
                                 {% for error in form.errors.post %}
                                 <span style="color: red;">[{{error}}]</span><br>
                                 {% endfor %}
                             </td>
-                            </td>
                         </tr>
+                               <td>Comment here:</td>
+                               <td>
+                                   <p><textarea cols="50" rows="4" name = "comment" placeholder="Please leave your comments here" style="width:220px"></textarea></p>
+                               </td>
+                           </td>
                     </table>
                     <p><input type="submit" class="btn" value = "Post it!"></input></p>
     

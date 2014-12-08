@@ -66,14 +66,16 @@
                                 {% for l in lists %}
                                 {% if l %}
                                 <tr>
-                                    <td><img src="{{l.avatar(50)}}" width="50" height="50" style="margin-right: 20px">{{l.nickname}}
-                                    {% if l.user_new(user) == True %}
+                                    <td><img src="{{l.avatar(50)}}" width="50" height="50" style="margin-right: 20px"><a href = "/user/{{l.nickname}}" >{{l.nickname}}</a>
                                     </td>
+                                    <td><a href="/message/{{l.nickname}}">View the history messages</a><br>
+                                    {% if l.user_new(user) == True %}
+                                    <b>New message!</b>
+                                   
                                     {% endif %}
-                                    <td><a href="/message/{{l.nickname}}">View the history messages</a>
-                                        <br>
-                                        <b>New message!</b></td>
+                                    </td>           
                                     <td>12-4-2014 16:42:34</td>
+                                
                                 </tr>
                                 
                                 {%endif%}

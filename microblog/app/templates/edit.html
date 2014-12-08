@@ -61,7 +61,7 @@
         <tr  align="left">
             <td><label class="control-label">Nickname: </label></td>
             <td>
-                <input type="text" name = "nickname" id="inputNick" placeholder="Nickname" style="width:220px">
+                <input type="text" name = "nickname" id="inputNick" value ="{{g.user.nickname}}" style="width:220px">
                 {% for error in form.errors.nickname %}
                 <br><span style="color: red;">{{error}}</span>
                 {% endfor %}
@@ -93,7 +93,7 @@
         <tr>
         <td><label class="control-label">About me: </label></td>
         <td>
-            <p><textarea cols="50" rows="4" placeholder="About me" value = "about_me"  style="width:220px"></textarea></p>
+            <p><textarea cols="50" rows="4" name = "about_me" placeholder="About me" style="width:220px"></textarea></p>
         </td>
         </tr>
     </table>
@@ -119,10 +119,21 @@
             
             <td align="center">
                 <select multiple="multiple" id = "inputState" name = "state">
-                    <option selected = "selected">CA</option>
-                    <option>FL</option>
-                    <option>WI</option>
-                    <option>NY</option>
+                    <option selected = "selected">AK</option>
+            <option>AZ</option>
+            <option>CA</option> 
+            <option>DC</option>
+            <option>FL</option>
+            <option>GA</option>
+            <option>HI</option>           
+            <option>IL</option>           
+            <option>MA</option>
+            <option>MN</option>
+            <option>NJ</option>
+            <option>NY</option> 
+            <option>NC</option> 
+            <option>TA</option>    
+            <option>WA</option> 
                     <option>TX</option>
                 </select>
             </td>
@@ -132,13 +143,38 @@
 </tr>
 <td align="center">
     <select multiple="multiple" id= "inputCity" name = "city">
-        <option selected = "selected">San Francisco</option>
-        <option>Orlando,</option>
-        <option>Miami</option>
-        <option>Las Vegas</option>
-        <option>New York City</option>
-        <option>Seattle</option>
-        <option>Austin</option>
+        <option selected = "selected">Anchorage, AK</option>
+            <option>Juneau, AK</option>
+            <option>Phoenix, AZ</option>
+            <option>Los Angeles, CA</option>
+            <option>San Francisco, CA</option>
+            <option>Sacramento, CA</option> 
+            <option>Washington, DC</option>
+            <option>Miami, FL</option>
+            <option>Olando, FL</option>
+            <option>Tallahassee, FL</option>
+            <option>Atlanta, GA</option>
+            <option>Honolulu, HI</option>
+            <option>Chicago, IL</option>           
+            <option>Springfield, IL</option>           
+            <option>Boston, MA</option>
+            <option>Minneapolis, MN</option>
+            <option>Saint Paul, MN</option>
+            <option>Newark, NJ</option>
+            <option>Trenton, NJ</option>
+            <option>Albany, NY</option>
+            <option>New York City, NY</option>
+            <option>Durham, NC</option>
+            <option>Chapel Hill, NC</option>
+            <option>Charlotte, NC</option> 
+            <option>Raleigh, NC</option> 
+            <option>Austin, TX</option>
+            <option>Dallas–Fort Worth, TX</option>
+            <option>Houston, TX</option>    
+            <option>Olympia, WA</option>
+            <option>Seattle, WA</option>      
+            <option>Madison, WI</option>
+            <option>Milwaukee, WI</option> 
     </select>
 </td>
 
@@ -148,17 +184,66 @@
    </tr>
    <td align="center">
        <select multiple="multiple" id="inputArea" name = "area">
-           <option selected = "selected">Restaurants</option>
-           <option>Bar</option>
-           <option>Museum</option>
-           <option>School</option>
-           <option>Park</option>
+           <option selected = "selected">Art Scene</option>
+            <option>  Christmas Lights </option>
+            <option>  Concerts </option>
+            <option>  Festivals </option>
+            <option>  Free Attractions</option>
+            <option>  Galleries</option>
+            <option>  Historical Sites</option>
+            <option>  Museums</option>
+            <option>  Music Scene</option>
+            <option>  Theater</option>
+            <option>  Antiques Stores</option>
+            <option>  Bookstores</option>
+            <option>  Boutiques</option>
+            <option>  Flea Markets</option>
+            <option>  Home Décor/Design Stores</option>
+            <option>  Luxury Stores</option>
+            <option>  Specialty Food Markets/Food Halls</option>
+            <option>  Public Parks/Gardens</option>
+            <option>  Public Transportation</option>
+            <option>  Cocktail Bars</option>
+            <option>  Dive Bars</option>
+            <option>  Live Music Scene</option>
+            <option>  Nightclubs</option>
+            <option>  Singles Scene</option>
+            <option>  Wine Bars</option>
+            <option>  Bakeries</option>
+            <option>  Barbecue</option>
+            <option>  Bars</option>
+            <option>  Brunch</option>
+            <option>  Coffee</option>
+            <option>  Craft Beer</option>
+            <option>  Diners</option>
+            <option>  Hamburgers</option>
+            <option>  Notable Restaurants</option>
+            <option>  Pizza</option>
+            <option>  Sandwiches</option>
+            <option>  Street Food/Food Trucks</option>
+            <option>  Spa</option>
+            <option>  Skiing</option>
+            <option>  Hiking</option>
+            <option>  Fishing</option>
+            <option>  Climbing</option>
+            <option>  Cycling</option>
        </select>
  <!--  </td><script>form.area.data = document.getElementById('inputArea').value;</script></tr> -->
 </table>
 </div>
 
 <p style="margin-left: 100px; margin-top:30px"><input type="submit" class="btn btn-primary" value = "Update" ></p>
+<title>My Application</title>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% block body %}{% endblock %}
 </form>
 
 <!--start from here-->

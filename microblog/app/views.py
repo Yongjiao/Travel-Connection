@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid, models
-from .forms import LoginForm, EditForm, RatingsForm, MessagesForm
-from .models import User
+from .forms import LoginForm, EditForm, RatingsForm, MessagesForm, SearchForm
+from .models import User, AreaOfInterests
 from datetime import datetime
 
 @lm.user_loader
@@ -18,10 +18,18 @@ def before_request():
         db.session.commit()
     
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods = ['GET'])
 def index():
-
     user = g.user
+    form = SearchForm()
+    if form.validate_on_submit():
+        s=str.strip(form.state.data)
+        c=str.strip(form.city.data)
+        a=str.strip(form.activity.data)
+        query = [s, c, a]
+    #if not form.validate_on_submit():
+    #    return redirect(url_for('search'))
+   #return render_template('index.html', form=form)
     if g.user.is_authenticated():
         # whether guser has new messages
         messages = user.get_new_messages().all()
@@ -31,8 +39,21 @@ def index():
                 newmessage = 1
         return render_template('index.html',
         newmessage = newmessage,
-        user = user)
-    return render_template('index.html', newmessage = 0)
+        user = user, form = form)        
+    return render_template('index.html', newmessage = 0, form = form)
+
+#@app.route('/')
+#@app.route('/search', methods= ['GET'])
+#def search():
+#   form = SearchForm()
+#    if form.validate_on_submit():
+#        s=str.strip(form.state.data)
+#        c=str.strip(form.city.data)
+#        a=str.strip(form.activity.data)
+#        query = [s, c, a]
+    #if not form.validate_on_submit():
+    #    return redirect(url_for('search'))
+#    return render_template('search.html', form=form)
 
 @app.route('/login', methods = ['GET', 'POST'])
 @oid.loginhandler
@@ -95,7 +116,7 @@ def user(nickname):
             averagerate = averagerate + comment.rates
         averagerate = averagerate / len(comments)
     #
-    useraoi = user.get_aoi()
+    useraoi = user.get_aoi().all()
     #rating other users
     form = RatingsForm()
     if form.validate_on_submit():
@@ -140,7 +161,7 @@ def user(nickname):
 @login_required
 def edit():
     form = EditForm(g.user.nickname)
-    guseraoi=g.user.get_aoi()
+    guseraoi=g.user.get_aoi().first()
     if form.validate_on_submit():
         g.user.nickname = form.nickname.data
         g.user.firstname = form.firstname.data
@@ -236,7 +257,7 @@ def sendMessage(nickname):
                 readstamp = 0)
             db.session.add(message)
             db.session.commit()
-            flash('Your message is sending!')
+            flash('Your message has been sent!')
             return redirect(url_for('user', nickname=nickname))
         return render_template('message.html',
             form = form,
@@ -251,4 +272,37 @@ def internal_error(error):
 def internal_error(error):
     db.session.rollback()
     return render_template('500.html'), 500  
+
+
+#non whoosh search
+@app.route('/search_results/', methods= ['GET', 'POST'])
+def search_results():
+    form = SearchForm()
+    if form.validate_on_submit():
+        print 'fromsub'
+        s=str.strip(str(form.state.data))
+        c=str.strip(str(form.city.data))
+        a=str.strip(str(form.activity.data))
+        query = [s, c, a]
+        # print 'new query', query
+
+    s = str.strip(str(request.form['state']))
+    c = str.strip(str(request.form['city']))
+    a = str.strip(str(request.form['activity']))
+
+    primary = User.query.join(AreaOfInterests, (AreaOfInterests.user_id == User.id)).filter_by(state=s, city=c, area=a).all()
+    secondary = User.query.join(AreaOfInterests, (AreaOfInterests.user_id == User.id)).filter(AreaOfInterests.state == s, AreaOfInterests.area != a, AreaOfInterests.city==c).all()
+    tertiary = User.query.join(AreaOfInterests, (AreaOfInterests.user_id == User.id)).filter(AreaOfInterests.state==s, AreaOfInterests.city != c, AreaOfInterests.area==a).all()
+    quaternary = User.query.join(AreaOfInterests, (AreaOfInterests.user_id == User.id)).filter(AreaOfInterests.city==c, AreaOfInterests.area==a, AreaOfInterests.state != s).all()
+    if (len(primary)+len(secondary)+len(tertiary)+len(quaternary) == 0):
+        #flash does not work on Vivian computer, noresults template is backup
+        flash('There is no result!')
+        return redirect(url_for('index'))
+    return render_template('search_results.html', query=query,
+                            primary=primary,
+                            secondary=secondary,
+                            tertiary=tertiary,
+                            quaternary=quaternary, form = form)
+
+
 

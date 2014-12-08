@@ -67,7 +67,7 @@
                                 </tr>
                                 {%for message in messages%}
                                 <tr>
-                                    <td><img src="{{message.get_sender().avatar(50)}}" width="50" height="50" style="margin-right: 20px">{{message.get_sender().nickname}}</td>
+                                    <td><img src="{{message.get_sender().avatar(50)}}" width="50" height="50" style="margin-right: 20px"><a href = "/user/{{message.get_sender().nickname}}" >{{message.get_sender().nickname}}</a></td>
                                     <td>{{message.text}}</td>
                                     <td>{{message.time.month}}-{{message.time.day}}-{{message.time.year}} {{message.time.hour}}:{{message.time.minute}}:{{message.time.second}}</td>
                                 </tr>

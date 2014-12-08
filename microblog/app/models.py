@@ -42,7 +42,7 @@ class User(db.Model):
 
     # get area of interests of user
     def get_aoi(self):
-        return AreaOfInterests.query.join(User, (User.id == AreaOfInterests.user_id)).filter(self.id == AreaOfInterests.user_id).first()
+        return AreaOfInterests.query.join(User, (User.id == AreaOfInterests.user_id)).filter(self.id == AreaOfInterests.user_id)
 
     # get comments of user
     def get_comments(self):
@@ -74,6 +74,18 @@ class User(db.Model):
             if new.readstamp == 0:
                 newornot = True
         return newornot
+
+    # get user's state
+    def get_user_state(self):
+        return AreaOfInterests.query.join(User,(User.id==AreaOfInterests.user_id)).filter(self.id == AreaOfInterests.user_id).first().state
+
+        # get user's state
+    def get_user_city(self):
+        return AreaOfInterests.query.join(User,(User.id==AreaOfInterests.user_id)).filter(self.id == AreaOfInterests.user_id).first().city
+
+        # get user's state
+    def get_user_area(self):
+        return AreaOfInterests.query.join(User,(User.id==AreaOfInterests.user_id)).filter(self.id == AreaOfInterests.user_id).first().area
 
     def __repr__(self):
         return '<User %r %r %r %r %r %r %r>' % (self.id, self.nickname, self.email, self.firstname, self.lastname, self.phone, self.about_me)    
