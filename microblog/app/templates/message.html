@@ -16,13 +16,14 @@
                                 body {
                                     padding-top: 30px;
                                     padding-bottom: 40px;
+                                    background-color: #ECF0F2;
                                 }
                             
                             /* Custom container */
                             .container-narrow {
-                                margin-top: -50px;
-                                margin-bottom: -60px;
-                                background-color: #eeeeee;
+                                margin: 0 auto;
+                                max-width: 1000px;
+                                background-color: #dee5e8;
                             }
                             
                             /* Supporting marketing content */
@@ -54,18 +55,18 @@
         
         <div class="container-narrow">
             <div class="row-fluid marketing">
-                <h4 style="margin-top: 50px">Chat History</h4>
-                <table class="table" style="width: 95%">
-                    <col width="20">
+                <h4 style="margin-top: 50px; margin-bottom:20px">Chat History</h4>
+                <table class="table table-striped" style="table-layout: fixed; width: 95%">
+                    <col width="80">
                         <col width="200">
-                            <col width="30">
-                                <tr style="background-color: #A19C9C">
+                            <col width="50">
+                                <tr>
                                     <th>Sender</th>
                                     <th>Message</th>
                                     <th>Time sent</th>
                                 </tr>
                                 {%for message in messages%}
-                                <tr style="background-color: #E1DFDF">
+                                <tr>
                                     <td><img src="{{message.get_sender().avatar(50)}}" width="50" height="50" style="margin-right: 20px">{{message.get_sender().nickname}}</td>
                                     <td>{{message.text}}</td>
                                     <td>{{message.time.month}}-{{message.time.day}}-{{message.time.year}} {{message.time.hour}}:{{message.time.minute}}:{{message.time.second}}</td>
@@ -73,12 +74,12 @@
                                 {% endfor %}
                                 </table>
                 
-                <h4> Send a New Message </h4>
+                <h4 style="margin-top:50px; margin-bottom:20px"> Send a New Message </h4>
                 <form action ="" method = "post" name = "rating">
                     {{form.hidden_tag()}}
                     <div class="controls">
 
-                        <p><textarea cols="50" rows="4" placeholder="write a new message" name = "text"></textarea></p>
+                        <p><textarea style="width: 500px; height:100px" placeholder="write a new message" name = "text"></textarea></p>
                         <td>
                             {% for error in form.errors.post %}
                             <span style="color: red;">[{{error}}]</span><br>
@@ -86,13 +87,13 @@
                         </td>
                         
                     </div>
-                <input type="submit" class="btn" style="margin-bottom: 30px" value = "Send">
+                <input type="submit" class="btn" style="margin-top: 20px" value = "Send">
                 </form>
         </div>
         <hr>
         
         <div class="footer">
-            <p style="margin-left: 20px">&copy; Company 2014</p>
+            <p style="margin-left: 20px">&copy; Travel Team</p>
         </div>
         </div> <!-- /container -->
         </div>

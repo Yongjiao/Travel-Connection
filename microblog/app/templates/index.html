@@ -1,5 +1,5 @@
 <!-- extend base layout -->
-{% extends "base.html" %}
+{% extends "basehome.html" %}
 {% block content %}
 <html lang="en">
     <head>
@@ -15,7 +15,9 @@
                                 body {
                                     padding-top: 60px;
                                     padding-bottom: 40px;
-                                }
+                                    }                                      
+
+
                             </style>
                             <link href="/static/css/travel-responsive.css" rel="stylesheet">
                                 
@@ -33,14 +35,10 @@
                                                     </head>
     
     <body>
-        
-        <div class="container">
-            
-            <!-- Main hero unit for a primary marketing message or call to action -->
             <div class="hero-unit">
-                <h3 class="text-center"><em>Travel is not only about sights, it is also about people!</em></h3>
-                <h1 class="text-center">Travel Connection, Your Best Choice!</h1>
-                <h3 class="text-center">Have questions about your travel? Ask experts here.</h2>
+                <h3 class="text-center" style="margin-top: 100px"><font face="Zapfino" size="3"><em>"Travel is not only about sights, it is also about people!"</em></font></h3>
+                <h1 class="text-center">Travel Connection</h1>
+                <h3 class="text-center"><font color="#ffffff">Have questions? Ask experts.</font></h2>
                     
                     <table style="table-layout: fixed; width: 100%">
                         <!--           <col width="100">
@@ -77,44 +75,36 @@
                             </td>
                             </table>
                     <p><a href="#" class="btn btn-primary btn-large" style="margin-top: 20px">Start search &raquo;</a></p>
-                    </div>
-            
+            </div>
+        
+        <div class="newhero">
             <!-- Example row of columns -->
             <table class="table">
                 <tr>
                     <td>
-                        <img src="/static/TravelImages/newyork.jpeg" width="300" height="150" class="img-rounded">
+                        <img src="/static/TravelImages/newyork.jpeg" width="300" height="150" class="img">
                             </td>
                     <td>
-                        <img src="/static/TravelImages/orlando.jpeg" width="300" height="150" class="img-rounded">
+                        <img src="/static/TravelImages/orlando.jpeg" width="300" height="150" class="img">
                             </td>
                     <td>
-                        <img src="/static/TravelImages/grandcanyon.jpg" width="300" height="150" class="img-rounded">
+                        <img src="/static/TravelImages/grandcanyon.jpg" width="300" height="150" class="img">
                             </td>
                     <td>
-                        <img src="/static/TravelImages/falls.jpeg" width="265" height="150" class="img-rounded">
+                        <img src="/static/TravelImages/falls.jpeg" width="265" height="150" class="img">
                             </td>
                 </tr>
             </table>
-            <!--         <div class="span4">
-             <h2>Heading</h2>
-             <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-             <p><a class="btn" href="#">View details &raquo;</a></p>
-             </div>
-             <div class="span4">
-             <h2>Heading</h2>
-             <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-             <p><a class="btn" href="#">View details &raquo;</a></p>
-             </div> -->
-        </div>
+
         
         <hr>
         
         <footer>
-            <p>&copy; Company 2014</p>
+            <p>&copy; Travel Team</p>
         </footer>
+        </div>
         
-        </div> <!-- /container -->
+         <!-- /container -->
         
         <!-- Le javascript
          ================================================== -->

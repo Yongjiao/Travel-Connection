@@ -21,7 +21,7 @@
                             .container-narrow {
                                 margin-top: -50px;
                                 margin-bottom: -60px;
-                                background-color: #eeeeee;
+                                background-color: #ECF0F2;
                             }
                             
                             /* Supporting marketing content */
@@ -52,63 +52,73 @@
         
 <div class="container-narrow">
     <div class="row-fluid marketing">
-    <h4 style="margin-top: 50px">Edit your profile</h4>
+    <h4 style="margin-top: 50px; margin-left: 30px">Edit your profile</h4>
     <form class="form-horizontal" action = "" method= "post" name = "edit">
     {{form.hidden_tag()}}
-    <table>
-            <label class="control-label">Nickname: </label>
-             <div class="controls">
-                <input type="text" name = "nickname" id="inputNick">
+    <table style="table-layout: fixed; width: 100%">
+                           <col width="75">
+                            <col width="400">
+        <tr  align="left">
+            <td><label class="control-label">Nickname: </label></td>
+            <td>
+                <input type="text" name = "nickname" id="inputNick" placeholder="Nickname" style="width:220px">
                 {% for error in form.errors.nickname %}
-                <br><span style="color: red;">[{{error}}]</span>
+                <br><span style="color: red;">{{error}}</span>
                 {% endfor %}
-            </div>
-        
+            </td>
+        </tr>
         <tr>
-            <label class="control-label">firtsname: </label>
-            <div class="controls">
-                <input type="text" name= "firstname" id="inputfirstName">
+            <td><label class="control-label">Firtsname: </label></td>
+            <td>
+                <input type="text" name= "firstname" id="inputfirstName" placeholder="First Name" style="width:220px">
                    <!-- <script>form.firstname.data = document.getElementById('inputfirstName');</script> -->
-            </div>
+            </td>
         </tr>
-        
-        <label class="control-label">firtsname: </label>
-        <div class="controls">
-            <input type="text" name = "lastname" id="inputlastName" placeholder="Last Name">
-                <!--<script>form.lastname.data = document.getElementById('inputlastName');</script>-->
-        </div>
         
         <tr>
-            <label class="control-label">Phone: </label>
-            <div class="controls">
-            <input type="text" name = "phone" id="inputPhone" placeholder="Phone">
-                <!--<script>form.phone.data = document.getElementById('inputPhone'); </script>-->
-            </div>
+        <td><label class="control-label">Lastname: </label></td>
+        <td>
+            <input type="text" name = "lastname" id="inputlastName" placeholder="Last Name" style="width:220px">
+                <!--<script>form.lastname.data = document.getElementById('inputlastName');</script>-->
+        </td>
         </tr>
-        <label class="control-label">About me: </label>
-        <div class="controls">
-            <p><textarea cols="50" rows="4" placeholder="About me" value = "about_me"></textarea></p>
-        </div>
+
+        <tr >
+            <td><label class="control-label">Phone: </label></td>
+            <td>
+            <input type="text" name = "phone" id="inputPhone" placeholder="Phone" style="width:220px">
+                <!--<script>form.phone.data = document.getElementById('inputPhone'); </script>-->
+            </td>
+        </tr>
+        <tr>
+        <td><label class="control-label">About me: </label></td>
+        <td>
+            <p><textarea cols="50" rows="4" placeholder="About me" value = "about_me"  style="width:220px"></textarea></p>
+        </td>
+        </tr>
+    </table>
     
     <label class="control-label">Expert area: </label>
     <div class="controls">
-        <table style="table-layout: fixed; width: 20%">
+        <table style="table-layout: fixed; width: 100%">
+                            <col width="127">
+                            <col width="400">
             <tr>
-                <td align="center">Country</td>
+                <td align="center"><font size="2">Country</font></td>
             </tr>
             
             <td align="center">
-                <select multiple="multiple" size="1" id = "inputCountry" name = "country">
+                <select multiple="multiple" id = "inputCountry" name = "country">
                     <option selected = "selected">United States</option>
                 </select>
             </td>
 
             <tr>
-                <td align="center">State</td>
+                <td align="center"><font size="2">State</font></td>
             </tr>
             
             <td align="center">
-                <select multiple="multiple" size="1" id = "inputState" name = "state">
+                <select multiple="multiple" id = "inputState" name = "state">
                     <option selected = "selected">CA</option>
                     <option>FL</option>
                     <option>WI</option>
@@ -118,10 +128,10 @@
             </td>
 
 <tr>
-    <td align="center">City</td>
+    <td align="center"><font size="2">City</font></td>
 </tr>
 <td align="center">
-    <select multiple="multiple" size="1" id= "inputCity" name = "city">
+    <select multiple="multiple" id= "inputCity" name = "city">
         <option selected = "selected">San Francisco</option>
         <option>Orlando,</option>
         <option>Miami</option>
@@ -134,10 +144,10 @@
 
 <!--<script>form.state.data = document.getElementById('inputState').value;</script>-->
    <tr>
-       <td align="center">Interest</td>
+       <td align="center"><font size="2">Interest</font></td>
    </tr>
    <td align="center">
-       <select multiple="multiple" size="1" id="inputArea" name = "area">
+       <select multiple="multiple" id="inputArea" name = "area">
            <option selected = "selected">Restaurants</option>
            <option>Bar</option>
            <option>Museum</option>
@@ -148,7 +158,7 @@
 </table>
 </div>
 
-<p><input type="submit" class="btn btn-success" value = "Update"></p>
+<p style="margin-left: 100px; margin-top:30px"><input type="submit" class="btn btn-primary" value = "Update" ></p>
 </form>
 
 <!--start from here-->
@@ -159,7 +169,7 @@
         <hr>
         
         <div class="footer">
-            <p>&copy; Company 2014</p>
+            <p>&copy; Travel Team</p>
         </div>
         </div> <!-- /container -->
         <!-- Le javascript

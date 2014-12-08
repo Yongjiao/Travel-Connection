@@ -13,18 +13,18 @@
                         <!-- Le styles -->
                         <link href="/static/css/travel.css" rel="stylesheet">
                             <style type="text/css">
-                                body {
+                                 body {
                                     padding-top: 30px;
                                     padding-bottom: 40px;
+                                    background-color: #ECF0F2;
                                 }
                             
                             /* Custom container */
                             .container-narrow {
-                                margin-top: -50px;
-                                margin-bottom: -60px;
-                                background-color: #eeeeee;
-                            }
-                            
+                                margin: 0 auto;
+                                max-width: 700px;
+                                background-color: #dee5e8;
+                            }                            
                             /* Supporting marketing content */
                             .marketing {
                                 margin-top: 60px;
@@ -53,11 +53,11 @@
         
         <div class="container-narrow">
             <div class="row-fluid marketing">
-                <h4 style="margin-top: 50px">All Messages</h4>
-                <table class="table table-striped" style="table-layout: fixed; width: 95%">
-                   <col width="40">
-                        <col width="50">
-                            <col width="50">
+                <h4 style="margin-top: 40px; margin-bottom:30px">All Messages</h4>
+                <table class="table table-striped" style="table-layout: fixed; width: 93%">
+                   <col width="100">
+                        <col width="150">
+                            <col width="100">
                                 <tr>
                                     <th>Username</th>
                                     <th>View</th>
@@ -66,11 +66,13 @@
                                 {% for l in lists %}
                                 {% if l %}
                                 <tr>
-                                    <td><img src="{{l.avatar(50)}}" width="50" height="50" style="margin-right: 20px">{{l.nickname}}</td>
+                                    <td><img src="{{l.avatar(50)}}" width="50" height="50" style="margin-right: 20px">{{l.nickname}}
                                     {% if l.user_new(user) == True %}
-                                    <td><b>New message here!</b></td>
+                                    </td>
                                     {% endif %}
-                                    <td><a href="/message/{{l.nickname}}">View the history messages</a></td>
+                                    <td><a href="/message/{{l.nickname}}">View the history messages</a>
+                                        <br>
+                                        <b>New message!</b></td>
                                     <td>12-4-2014 16:42:34</td>
                                 </tr>
                                 
@@ -84,7 +86,7 @@
         <hr>
         
         <div class="footer">
-            <p style="margin-left: 20px">&copy; Company 2014</p>
+            <p style="margin-left: 20px">&copy; Travel Team</p>
         </div>
         </div> <!-- /container -->
         

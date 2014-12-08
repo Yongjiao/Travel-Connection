@@ -18,14 +18,15 @@
                                     padding-bottom: 40px;
                                     padding-left: 40px;
                                     padding-right: 40px;
-                                    background-color: #D6D6D6;
+                                    background-color: #ECF0F2;
+
                                 }
-                            
+                        
                             .form-signin {
                                 max-width: 300px;
                                 padding: 19px 29px 29px;
-                                margin: 0 auto 20px;
-                                background-color: #fff;
+                                margin: 40px auto 20px;
+                                background-color: #ffffff;
                                 border: 1px solid #e5e5e5;
                                 -webkit-border-radius: 5px;
                                 -moz-border-radius: 5px;
@@ -43,14 +44,14 @@
                             }
                             .form-signin .form-signin-subheading{
                                 margin-bottom: 5px;
-                                margin-left: 50px;
+                                /*margin-left: 50px;*/
                             }
                             .form-signin .form-signin-subheading {
                                 font-size: 16px;
                                 height: auto;
                                 margin-bottom: 5px;
                                 padding: 7px 9px;
-                                color: #2E2E2E;
+                                color: #afbaca;
                             }
                             .form-signin input[type="text"] {
                                 font-size: 16px;
@@ -95,23 +96,21 @@
 
 <form class="form-signin" method="post" name="login"> <!--have to have both method and name attribute for the signin button to work as well as Sign In  -->
      {{form.hidden_tag()}}
-    <h2 class="form-signin-heading">Sign In</h2>
-    <h2 class="form-signin-subheading">Please enter your OpenID</h2>
+    <h2 class="form-signin-subheading" align="center">Please enter your OpenID</h2>
     
     <!--<input type="text" class="input-block-level" placeholder="OpenID"> -->
-         {{form.openid(size=100)}}
+         <p align="center">{{form.openid(size=100)}}</p>
         <!--  <input type="password" class="input-block-level" placeholder="Password"> -->
-        <h2 class="form-signin-subheading">Or select from following</h2>
+        <h2 class="form-signin-subheading" align="center">Or select from following</h2>
         {%with pr = providers[0]%}
         {%with ww = providers[1]%}
-        <a class="btn btn-large btn-block btn-warning" type="button" href="javascript:set_openid('{{pr.url}}', '{{pr.name}}');">Sign in with {{pr.name}}</a>
+        <a class="btn btn-large btn-block btn-warning" type="button" href="javascript:set_openid('{{pr.url}}', '{{pr.name}}');" style="width:209px; height: 40px; margin-left: 47px"><font size="2">Sign in with Gmail</font></a>
         <!--<button class="btn btn-large btn-block btn-warning" type="button" onclick="location.href='http://google.com'">Sign in with {{pr.name}}</button> -->
-        <a class="btn btn-large btn-block btn-danger" type="button" href="javascript:set_openid('{{ww.url}}', '{{pr.name}}');">Sign in with Yahoo</a>
+        <a class="btn btn-large btn-block btn-danger" type="button" href="javascript:set_openid('{{ww.url}}', '{{pr.name}}');" style="margin-bottom: 40px; width:209px; height: 40px; margin-left: 47px"><font size="2">Sign in with Yahoo</font></a>
         {%endwith%}
         {%endwith%}
-        <p>{{form.remember_me}} Remember Me</p>
-        <button><input class="btn btn-small btn-primary" type="button" value="Sign In"></button>
-        <button class="btn btn-small btn-primary" type="button">Back</button>
+        <p style="margin-bottom:20px; margin-left:50px"><font color="#afbaca">{{form.remember_me}} Remember Me</font></p>
+        <input class="btn btn-small btn-primary" type="submit" value="Sign In" style="width:209px; height: 40px; margin-left: 47px">
         </form>
 
 
