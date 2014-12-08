@@ -44,5 +44,6 @@ class SearchForm(Form):
     state = StringField('state', validators=[InputRequired()])
     city = StringField('city', validators=[InputRequired()])
     activity = StringField('activity', validators=[InputRequired()])
+    search = StringField('search',validators=[InputRequired()])
 
 

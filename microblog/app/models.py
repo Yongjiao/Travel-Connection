@@ -1,5 +1,5 @@
 from hashlib import md5
-from app import db
+from app import db, app
 import sys
 if sys.version_info >= (3, 0):
     enable_search = False
@@ -97,7 +97,7 @@ class AreaOfInterests(db.Model):
         return '<AreaOfInterests %r %r %r %r %r %r>' % (self.id, self.user_id, self.country, self.state, self.city, self.area)
 
 if enable_search:
-    whooshalchemy.whoosh_index(app, Post)
+    whooshalchemy.whoosh_index(app, AreaOfInterests)
 
 class Ratings(db.Model):
     id = db.Column(db.Integer, primary_key = True)

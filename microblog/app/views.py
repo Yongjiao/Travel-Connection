@@ -17,7 +17,9 @@ def before_request():
         g.user.last_seen = datetime.utcnow()
         db.session.add(g.user)
         db.session.commit()
+        g.search_form = SearchForm()
 
+@app.route('/')
 @app.route('/search', methods= ['GET'])
 def search():
     form = SearchForm()
@@ -61,7 +63,7 @@ def search_results():
 
 
 
-@app.route('/')
+
 @app.route('/index')
 @login_required
 def index():
